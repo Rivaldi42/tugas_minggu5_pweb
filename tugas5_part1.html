@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Form Registrasi Mahasiswa</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 30px;
+    }
+    form {
+      width: 350px;
+    }
+    label {
+      font-weight: bold;
+    }
+    input, select, button {
+      width: 100%;
+      padding: 8px;
+      margin: 5px 0 15px 0;
+    }
+  </style>
+</head>
+<body>
+  <h2>Form Registrasi Mahasiswa</h2>
+  
+  <form id="regForm">
+    <label for="nama">Nama Mahasiswa</label>
+    <input list="daftarNama" id="nama" name="nama" placeholder="Ketik Nama...">
+    <datalist id="daftarNama">
+      <option value="Nuris Akbar">
+      <option value="Rivaldi Pratama">
+      <option value="Siti Aisyah">
+      <option value="Budi Santoso">
+      <option value="Andi Wijaya">
+    </datalist>
+    
+    <label for="nim">NIM</label>
+    <input type="text" id="nim" name="nim" placeholder="Masukkan NIM">
+
+    <label for="matkul">Mata Kuliah</label>
+    <select id="matkul" name="matkul">
+      <option value="">-- Pilih Mata Kuliah --</option>
+      <option value="Pemrograman Web">Pemrograman Web</option>
+      <option value="Basis Data">Basis Data</option>
+      <option value="Jaringan Komputer">Jaringan Komputer</option>
+      <option value="Kecerdasan Buatan">Kecerdasan Buatan</option>
+    </select>
+
+    <label for="dosen">Dosen Pengampu</label>
+    <select id="dosen" name="dosen">
+      <option value="">-- Pilih Dosen --</option>
+      <option value="Dr. Ahmad Fauzi">Dr. Ahmad Fauzi</option>
+      <option value="Prof. Siti Aminah">Prof. Siti Aminah</option>
+      <option value="Ir. Bambang Susilo, M.Kom">Ir. Bambang Susilo, M.Kom</option>
+      <option value="Dr. Lestari Handayani">Dr. Lestari Handayani</option>
+    </select>
+
+    <button type="submit">Daftar</button>
+  </form>
+
+  <script>
+    document.getElementById("regForm").addEventListener("submit", function(event){
+      event.preventDefault();
+      
+      let nama = document.getElementById("nama").value;
+      let nim = document.getElementById("nim").value;
+      let matkul = document.getElementById("matkul").value;
+      let dosen = document.getElementById("dosen").value;
+
+      if(nama === "" || nim === "" || matkul === "" || dosen === ""){
+        alert("Semua field harus diisi!");
+      } else {
+        alert("Registrasi berhasil!\nNama: " + nama + "\nNIM: " + nim + "\nMata Kuliah: " + matkul + "\nDosen: " + dosen);
+      }
+    });
+  </script>
+</body>
+</html>
