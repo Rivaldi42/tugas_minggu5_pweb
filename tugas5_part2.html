@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Pencarian Kode Pos Indonesia</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 20px; }
+    label { font-weight: bold; display: block; margin-top: 10px; }
+    select, button { width: 300px; padding: 6px; margin-top: 5px; }
+    #hasil { margin-top: 20px; padding: 10px; border: 1px solid #ccc; width: 350px; }
+    .kodepos { background: #e0ffe0; padding: 10px; border-radius: 5px; }
+  </style>
+</head>
+<body>
+  <h2>Pencarian Kode Pos Indonesia</h2>
+
+  <label for="provinsi">Provinsi</label>
+  <select id="provinsi">
+    <option value="">-- Pilih Provinsi --</option>
+  </select>
+
+  <label for="kota">Kota / Kabupaten</label>
+  <select id="kota">
+    <option value="">-- Pilih Kota / Kabupaten --</option>
+  </select>
+
+  <label for="kecamatan">Kecamatan</label>
+  <select id="kecamatan">
+    <option value="">-- Pilih Kecamatan --</option>
+  </select>
+
+  <button onclick="cariKodePos()">Cari Kode Pos</button>
+
+  <div id="hasil"></div>
+
+  <script>
+    const dataKodePos = {
+      "Jawa Timur": {
+        "Surabaya": {
+          "Sukolilo": { kode: "60111", daerah: "Kelurahan Keputih, Kecamatan Sukolilo, Surabaya" },
+          "Tegalsari": { kode: "60262", daerah: "Kelurahan Tegalsari, Surabaya" }
+        },
+        "Malang": {
+          "Klojen": { kode: "65111", daerah: "Kelurahan Klojen, Malang" },
+          "Lowokwaru": { kode: "65141", daerah: "Kelurahan Lowokwaru, Malang" }
+        }
+      },
+      "DKI Jakarta": {
+        "Jakarta Selatan": {
+          "Kebayoran Baru": { kode: "12120", daerah: "Kelurahan Senayan, Kebayoran Baru, Jakarta Selatan" },
+          "Pasar Minggu": { kode: "12510", daerah: "Kelurahan Pejaten, Pasar Minggu, Jakarta Selatan" }
+        }
+      }
+    };
+
+    let provSelect = document.getElementById("provinsi");
+    for (let prov in dataKodePos) {
+      provSelect.add(new Option(prov, prov));
+    }
+
+    provSelect.addEventListener("change", function(){
+      let kotaSelect = document.getElementById("kota");
+      kotaSelect.innerHTML = "<option value=''>-- Pilih Kota / Kabupaten --</option>";
+      document.getElementById("kecamatan").innerHTML = "<option value=''>-- Pilih Kecamatan --</option>";
+      
+      if(this.value){
+        let kotaList = dataKodePos[this.value];
+        for (let kota in kotaList) {
+          kotaSelect.add(new Option(kota, kota));
+        }
+      }
+    });
+
+    document.getElementById("kota").addEventListener("change", function(){
+      let kecSelect = document.getElementById("kecamatan");
+      kecSelect.innerHTML = "<option value=''>-- Pilih Kecamatan --</option>";
+      
+      let prov = document.getElementById("provinsi").value;
+      if(this.value){
+        let kecList = dataKodePos[prov][this.value];
+        for (let kec in kecList) {
+          kecSelect.add(new Option(kec, kec));
+        }
+      }
+    });
+
+    function cariKodePos(){
+      let prov = document.getElementById("provinsi").value;
+      let kota = document.getElementById("kota").value;
+      let kec = document.getElementById("kecamatan").value;
+      let hasil = document.getElementById("hasil");
+
+      if(prov && kota && kec){
+        let data = dataKodePos[prov][kota][kec];
+        hasil.innerHTML = `<div class="kodepos">
+          <b>Kode Pos:</b> ${data.kode}<br>
+          <b>Daerah:</b> ${data.daerah}
+        </div>`;
+      } else {
+        hasil.innerHTML = "<p style='color:red'>Lengkapi semua pilihan terlebih dahulu!</p>";
+      }
+    }
+  </script>
+</body>
+</html>
